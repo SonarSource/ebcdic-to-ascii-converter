@@ -20,16 +20,20 @@
 package com.sonarsource.cobol.ebcdic;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.io.File;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class FileConverterTest {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private FileConverter converter = new FileConverter(Charset.forName("UTF-8"), Charset.forName("UTF-8"));
 
@@ -37,14 +41,14 @@ public class FileConverterTest {
   public void shouldConvertCarriageReturnAndLineFeedIntoWhitespace() throws Exception {
     StringWriter writer = new StringWriter();
     converter.convert("This is\ra\nline", writer);
-    assertThat(writer.toString(), is("This is a line"));
+    assertThat(writer.toString()).isEqualTo("This is a line");
   }
 
   @Test
   public void shouldConvertNextLineIntoLineFeed() throws Exception {
     StringWriter writer = new StringWriter();
     converter.convert("This is a " + (char) 0x15 + " new line", writer);
-    assertThat(writer.toString(), is("This is a \n new line"));
+    assertThat(writer.toString()).isEqualTo("This is a \n new line");
   }
 
   public static void main(String[] args) {
@@ -62,7 +66,7 @@ public class FileConverterTest {
     converter.setFixedLength(30);
     StringWriter writer = new StringWriter();
     converter.convert("This is a" + (char) 0x15 + "space", writer);
-    assertThat(writer.toString(), is("This is a space"));
+    assertThat(writer.toString()).isEqualTo("This is a space");
   }
 
   @Test
@@ -70,7 +74,7 @@ public class FileConverterTest {
     converter.setFixedLength(3);
     StringWriter writer = new StringWriter();
     converter.convert("a23456789", writer);
-    assertThat(writer.toString(), is("a23\n456\n789"));
+    assertThat(writer.toString()).isEqualTo("a23\n456\n789");
   }
 
   @Test
@@ -84,7 +88,7 @@ public class FileConverterTest {
     FileUtils.copyFile(ebcdicFile, workingFile);
 
     converter.convert(workingFile, workingFile);
-    assertThat(FileUtils.contentEquals(workingFile, expectedOutputFile), is(true));
+    assertThat(FileUtils.contentEquals(workingFile, expectedOutputFile)).isTrue();
   }
 
   @Test
@@ -104,37 +108,33 @@ public class FileConverterTest {
     String[] args = new String[] {new File("target/converter").getAbsolutePath(), "Cp1047", "UTF-8"};
     FileConverter.main(args);
 
-    assertThat(FileUtils.contentEquals(workingFile1, expectedOutputFile), is(true));
-    assertThat(FileUtils.contentEquals(workingFile2, expectedOutputFile), is(true));
-    assertThat(FileUtils.contentEquals(workingFile3, expectedOutputFile), is(true));
+    assertThat(FileUtils.contentEquals(workingFile1, expectedOutputFile)).isTrue();
+    assertThat(FileUtils.contentEquals(workingFile2, expectedOutputFile)).isTrue();
+    assertThat(FileUtils.contentEquals(workingFile3, expectedOutputFile)).isTrue();
     // assertThat(FileUtils.contentEquals(workingFile3, workingHiddenFile), is(false)); TODO : this is not an hidden file on Windows
   }
 
-  @Test(expected = EbcdicToAsciiConverterException.class)
+  @Test
   public void shouldThrowAnExceptionWhenDirectoryDoesntExist() {
+    thrown.expect(EbcdicToAsciiConverterException.class);
     converter.convertAllEbcdicFileIn(new File("unknown"));
   }
 
-  @Test(expected = EbcdicToAsciiConverterException.class)
+  @Test
   public void shouldThrowAnExceptionWhenDirectoryIsFile() throws Exception {
+    thrown.expect(EbcdicToAsciiConverterException.class);
     converter.convertAllEbcdicFileIn(new File(FileConverterTest.class.getResource("/EBCDIC.txt").toURI()));
   }
 
   @Test
   public void shouldDecreaseArraySize() {
     int[] newArray = converter.resizeArray(new int[] {1, 2, 3}, 2);
-    assertThat(newArray.length, is(2));
-    assertThat(newArray[0], is(1));
-    assertThat(newArray[1], is(2));
+    assertThat(newArray).hasSize(2).isEqualTo(new int[] {1, 2});
   }
 
   @Test
   public void shouldIncreaseArraySize() {
     int[] newArray = converter.resizeArray(new int[] {1, 2, 3}, 4);
-    assertThat(newArray.length, is(4));
-    assertThat(newArray[0], is(1));
-    assertThat(newArray[1], is(2));
-    assertThat(newArray[2], is(3));
+    assertThat(newArray).hasSize(4).isEqualTo(new int[] {1, 2, 3, 0});
   }
-
 }
