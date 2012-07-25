@@ -31,7 +31,7 @@ import static org.hamcrest.Matchers.is;
 
 public class FileConverterTest {
 
-  FileConverter converter = new FileConverter(Charset.forName("UTF-8"), Charset.forName("UTF-8"));
+  private FileConverter converter = new FileConverter(Charset.forName("UTF-8"), Charset.forName("UTF-8"));
 
   @Test
   public void shouldConvertCarriageReturnAndLineFeedIntoWhitespace() throws Exception {
@@ -111,26 +111,6 @@ public class FileConverterTest {
   }
 
   @Test(expected = EbcdicToAsciiConverterException.class)
-  public void shouldStopConversionOfNonEbcdicFile() throws Exception {
-    converter = new FileConverter(FileConverter.CP1047, Charset.forName("UTF-8"));
-    File asciiFile = new File(FileConverterTest.class.getResource("/ASCII.txt").toURI());
-    File workingFile = new File("target/converter/cobol.txt");
-    FileUtils.copyFile(asciiFile, workingFile);
-
-    converter.convert(asciiFile, workingFile);
-  }
-
-  @Test(expected = EbcdicToAsciiConverterException.class)
-  public void shouldRecognizeBadEncoding() throws Exception {
-    converter.wasItReadWithGoodEncoding(new int[] {' ', 'a', 'b', ' '});
-  }
-
-  @Test
-  public void shouldRecognizeGoodEncoding() throws Exception {
-    converter.wasItReadWithGoodEncoding(new int[] {'a', 'a', 'b', 'b'});
-  }
-
-  @Test(expected = EbcdicToAsciiConverterException.class)
   public void shouldThrowAnExceptionWhenDirectoryDoesntExist() {
     converter.convertAllEbcdicFileIn(new File("unknown"));
   }
@@ -156,4 +136,5 @@ public class FileConverterTest {
     assertThat(newArray[1], is(2));
     assertThat(newArray[2], is(3));
   }
+
 }
