@@ -89,7 +89,7 @@ public class FileConverter {
     e.printStackTrace();
   }
 
-  private static Charset forName(String charsetName) {
+  static Charset forName(String charsetName) {
     try {
       return Charset.forName(charsetName);
     } catch (Exception e) {
@@ -143,23 +143,13 @@ public class FileConverter {
     }
   }
 
-  private void close(Writer writer) {
+  private void close(Closeable closeable) {
     try {
-      if (writer != null) {
-        writer.close();
+      if (closeable != null) {
+        closeable.close();
       }
     } catch (IOException e) {
-      throw new EbcdicToAsciiConverterException("Unable to close the writer", e);
-    }
-  }
-
-  private void close(Reader reader) {
-    try {
-      if (reader != null) {
-        reader.close();
-      }
-    } catch (IOException e) {
-      throw new EbcdicToAsciiConverterException("Unable to close the reader", e);
+      throw new EbcdicToAsciiConverterException("Unable to close", e);
     }
   }
 

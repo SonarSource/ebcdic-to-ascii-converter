@@ -137,4 +137,24 @@ public class FileConverterTest {
     int[] newArray = converter.resizeArray(new int[] {1, 2, 3}, 4);
     assertThat(newArray).hasSize(4).isEqualTo(new int[] {1, 2, 3, 0});
   }
+
+  @Test
+  public void should_fail_on_unknown_charset() {
+    thrown.expect(EbcdicToAsciiConverterException.class);
+    thrown.expectMessage("'foo' is an unknown charset.");
+    FileConverter.forName("foo");
+  }
+
+  @Test
+  public void application_should_not_fail_on_unknown_charset() {
+    String[] args = new String[] {new File("target/converter").getAbsolutePath(), "foo"};
+    FileConverter.main(args);
+  }
+
+  @Test
+  public void application_should_not_fail_when_missing_required_parameter() {
+    String[] args = new String[] {};
+    FileConverter.main(args);
+  }
+
 }
