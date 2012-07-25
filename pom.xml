@@ -10,6 +10,7 @@
   </parent>
 
   <artifactId>ebcdic-ascii-converter</artifactId>
+  <version>0.1-SNAPSHOT</version>
 
   <name>EBCDIC to ASCII converter</name>
   <inceptionYear>2012</inceptionYear>
