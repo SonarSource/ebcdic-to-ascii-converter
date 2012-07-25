@@ -27,6 +27,10 @@
     </license>
   </licenses>
 
+  <properties>
+    <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
