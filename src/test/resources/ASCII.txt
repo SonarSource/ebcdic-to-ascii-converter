@@ -1,0 +1,17 @@
+       IDENTIFICATION DIVISION.                                         00000010
+       PROGRAM-ID.                                                      00000020
+           AGSPRUE.                                                     00000030
+       ENVIRONMENT DIVISION.                                            00000170
+       CONFIGURATION SECTION.                                           00000180
+       SPECIAL-NAMES.                                                   00000190
+           DECIMAL-POINT IS COMMA.                                      00000200
+                                                                        00000210
+       DATA DIVISION.                                                   00000220
+       WORKING-STORAGE SECTION.                                         00000230
+                                                                        00000920
+       LINKAGE SECTION.                                                 00000930
+                                                                        00000940
+       PROCEDURE DIVISION.                                              00000950
+       INICIO.                                                          00000960
+           MOVE '                                    ' TO CAMPO-L(IND)  00002100
+           .                                                            00003550
