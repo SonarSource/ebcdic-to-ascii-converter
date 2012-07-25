@@ -27,6 +27,16 @@
     </license>
   </licenses>
 
+  <scm>
+    <connection>scm:git:git@github.com:SonarSource/ebcdic-to-ascii-converter.git</connection>
+    <developerConnection>scm:git:git@github.com:SonarSource/ebcdic-to-ascii-converter.git</developerConnection>
+    <url>https://github.com/SonarSource/ebcdic-to-ascii-converter</url>
+  </scm>
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/15262</url>
+  </issueManagement>
+
   <properties>
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
   </properties>
