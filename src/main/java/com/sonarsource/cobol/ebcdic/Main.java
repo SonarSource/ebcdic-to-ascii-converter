@@ -29,12 +29,20 @@ public final class Main {
   private static final String INPUT_CHARSET_DEFAULT = "CP1047";
   private static final int FIXED_LENGTH_DEFAULT = 80;
 
+  private Charset input = charsetForName(INPUT_CHARSET_DEFAULT);
+  private Charset output = Charset.defaultCharset();
+  private int fixedLength = FIXED_LENGTH_DEFAULT;
+  private File source = null;
+  private File destination = null;
+
   public static void main(String[] args) {
-    Charset input = charsetForName(INPUT_CHARSET_DEFAULT);
-    Charset output = Charset.defaultCharset();
-    File source = null;
-    File destination = null;
-    int fixedLength = FIXED_LENGTH_DEFAULT;
+    new Main().parseArguments(args).convert();
+  }
+
+  private Main() {
+  }
+
+  private Main parseArguments(String[] args) {
     for (int i = 0; i < args.length; i++) {
       String arg = args[i];
       if ("-h".equals(arg) || "--help".equals(arg)) {
@@ -80,7 +88,10 @@ public final class Main {
     if (destination == null) {
       printError("Missing destination.");
     }
+    return this;
+  }
 
+  private void convert() {
     try {
       FileConverter converter = new FileConverter(input, output);
       converter.setFixedLength(fixedLength);
@@ -156,9 +167,6 @@ public final class Main {
   private static void log(String message, Throwable e) {
     System.out.println(message);
     e.printStackTrace();
-  }
-
-  private Main() {
   }
 
 }

@@ -92,41 +92,6 @@ public class FileConverterTest {
   }
 
   @Test
-  public void shouldConvertAllEbcdicFilesInDirectoryAndSubDirectories() throws Exception {
-    File ebcdicFile = new File(FileConverterTest.class.getResource("/EBCDIC.txt").toURI());
-    File expectedOutputFile = new File(FileConverterTest.class.getResource("/ASCII.txt").toURI());
-
-    File workingFile1 = new File("target/converter/cobol.txt");
-    FileUtils.copyFile(ebcdicFile, workingFile1);
-    File workingFile2 = new File("target/converter/sub/cobol.txt");
-    FileUtils.copyFile(ebcdicFile, workingFile2);
-    File workingFile3 = new File("target/converter/sub/sub/cobol.txt");
-    FileUtils.copyFile(ebcdicFile, workingFile3);
-    File workingHiddenFile = new File("target/converter/sub/sub/.cobol.txt");
-    FileUtils.copyFile(ebcdicFile, workingHiddenFile);
-
-    String[] args = new String[] {new File("target/converter").getAbsolutePath(), "Cp1047", "UTF-8"};
-    FileConverter.main(args);
-
-    assertThat(FileUtils.contentEquals(workingFile1, expectedOutputFile)).isTrue();
-    assertThat(FileUtils.contentEquals(workingFile2, expectedOutputFile)).isTrue();
-    assertThat(FileUtils.contentEquals(workingFile3, expectedOutputFile)).isTrue();
-    // assertThat(FileUtils.contentEquals(workingFile3, workingHiddenFile), is(false)); TODO : this is not an hidden file on Windows
-  }
-
-  @Test
-  public void shouldThrowAnExceptionWhenDirectoryDoesntExist() {
-    thrown.expect(EbcdicToAsciiConverterException.class);
-    converter.convertAllEbcdicFileIn(new File("unknown"));
-  }
-
-  @Test
-  public void shouldThrowAnExceptionWhenDirectoryIsFile() throws Exception {
-    thrown.expect(EbcdicToAsciiConverterException.class);
-    converter.convertAllEbcdicFileIn(new File(FileConverterTest.class.getResource("/EBCDIC.txt").toURI()));
-  }
-
-  @Test
   public void shouldDecreaseArraySize() {
     int[] newArray = converter.resizeArray(new int[] {1, 2, 3}, 2);
     assertThat(newArray).hasSize(2).isEqualTo(new int[] {1, 2});
@@ -136,25 +101,6 @@ public class FileConverterTest {
   public void shouldIncreaseArraySize() {
     int[] newArray = converter.resizeArray(new int[] {1, 2, 3}, 4);
     assertThat(newArray).hasSize(4).isEqualTo(new int[] {1, 2, 3, 0});
-  }
-
-  @Test
-  public void should_fail_on_unknown_charset() {
-    thrown.expect(EbcdicToAsciiConverterException.class);
-    thrown.expectMessage("'foo' is an unknown charset.");
-    FileConverter.forName("foo");
-  }
-
-  @Test
-  public void application_should_not_fail_on_unknown_charset() {
-    String[] args = new String[] {new File("target/converter").getAbsolutePath(), "foo"};
-    FileConverter.main(args);
-  }
-
-  @Test
-  public void application_should_not_fail_when_missing_required_parameter() {
-    String[] args = new String[] {};
-    FileConverter.main(args);
   }
 
 }

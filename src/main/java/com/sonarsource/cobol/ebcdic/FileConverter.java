@@ -21,8 +21,6 @@ package com.sonarsource.cobol.ebcdic;
 
 import java.io.*;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collection;
 
 public class FileConverter {
 
@@ -47,83 +45,6 @@ public class FileConverter {
 
   public void setFixedLength(int numberOfColumn) {
     this.fixedLength = numberOfColumn;
-  }
-
-  public static void main(String[] args) {
-    try {
-      log("****");
-      log("Starting the SonarSource EBCDIC to ASCII converter");
-      log(" - The first parameter must be the relative or absolut path of the directory containing the EBCDIC files to be converted");
-      log(" - The optional second parameter is the EBCDIC encoding to be used (Cp1047 by default)");
-      log(" - The optional third parameter is the ASCII encoding to be used (by default the one of the OS : "
-          + Charset.defaultCharset().displayName() + ")");
-      log("****");
-      if (args.length == 0) {
-        throw new EbcdicToAsciiConverterException("The directory containing the EBDCID files to be converted has not been defined.");
-      }
-      File directory = new File(args[0]);
-      Charset ebcdicCharset = CP1047;
-      Charset asciiCharset = Charset.defaultCharset();
-      if (args.length > 1) {
-        ebcdicCharset = forName(args[1]);
-        if (args.length > 2) {
-          asciiCharset = forName(args[2]);
-        }
-      }
-      FileConverter converter = new FileConverter(ebcdicCharset, asciiCharset);
-      converter.setFixedLength(80);
-      converter.convertAllEbcdicFileIn(directory);
-      log("SUCCESS");
-    } catch (EbcdicToAsciiConverterException e) {
-      log("Unable to convert EBCDIC files", e);
-      log("FAILURE");
-    }
-  }
-
-  private static void log(String message) {
-    System.out.println(message);
-  }
-
-  private static void log(String message, Throwable e) {
-    System.out.println(message);
-    e.printStackTrace();
-  }
-
-  static Charset forName(String charsetName) {
-    try {
-      return Charset.forName(charsetName);
-    } catch (Exception e) {
-      throw new EbcdicToAsciiConverterException("'" + charsetName + "' is an unknown charset.", e);
-    }
-  }
-
-  void convertAllEbcdicFileIn(File directory) {
-    Collection<File> filesToBeConverted = searchForEbcdicFileToBeConverted(directory);
-    for (File file : filesToBeConverted) {
-      convert(file, file);
-    }
-  }
-
-  private Collection<File> searchForEbcdicFileToBeConverted(File dir) {
-    if (!dir.exists()) {
-      throw new EbcdicToAsciiConverterException("The directory '" + dir.getPath() + "' doesn't exist.");
-    }
-    if (dir.isFile()) {
-      throw new EbcdicToAsciiConverterException("The expected directory '" + dir.getAbsolutePath() + "' is in fact a file.");
-    }
-    Collection<File> files = new ArrayList<File>();
-    recursivelyAddNonHiddenFilesInDirectory(dir, files);
-    return files;
-  }
-
-  private void recursivelyAddNonHiddenFilesInDirectory(File dir, Collection<File> files) {
-    for (File file : dir.listFiles()) {
-      if (file.isFile() && !file.isHidden()) {
-        files.add(file);
-      } else if (file.isDirectory() && !file.isHidden()) {
-        recursivelyAddNonHiddenFilesInDirectory(file, files);
-      }
-    }
   }
 
   void convert(File ebcdicInputFile, File convertedOutputFile) {
