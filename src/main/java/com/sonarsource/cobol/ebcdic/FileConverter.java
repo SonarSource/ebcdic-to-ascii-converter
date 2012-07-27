@@ -36,9 +36,9 @@ public class FileConverter {
     0x81, 0x82, 0x83, 0x84, 0x0A, 0x17, 0x1B, 0x88, 0x89, 0x8A, 0x8B, 0x8C, 0x05, 0x06, 0x07, 0x90, 0x91, 0x16, 0x93, 0x94, 0x95, 0x96,
     0x04, 0x98, 0x99, 0x9A, 0x9B, 0x14, 0x15, 0x9E, 0x1A, 0x20, 0xA0};
 
+  private final Charset ebcdicCharset;
+  private final Charset outputCharset;
   private int fixedLength = -1;
-  private Charset ebcdicCharset;
-  private Charset outputCharset;
 
   public FileConverter(Charset ebcdicCharset, Charset outputCharset) {
     this.ebcdicCharset = ebcdicCharset;
@@ -131,7 +131,6 @@ public class FileConverter {
     Writer writer = null;
     try {
       reader = new BufferedReader(new InputStreamReader(new FileInputStream(ebcdicInputFile), ebcdicCharset));
-      log("Converting file '" + ebcdicInputFile.getAbsolutePath() + "'");
       int[] ebcdicInput = loadContent(reader);
       close(reader);
       writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(convertedOutputFile), outputCharset));
