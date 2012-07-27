@@ -129,7 +129,7 @@ public final class Main {
     log("  destination    relative or absolute path to the directory, which will contain result of conversion");
     log("");
     log("Options:");
-    log("  -h, --help     Display help information");
+    log("  -h, --help     display help information and exit");
     log("  -f encoding    encoding of original text (" + INPUT_CHARSET_DEFAULT + " by default)");
     log("  -t encoding    encoding for output (by default the one of the OS: " + Charset.defaultCharset().displayName() + ")");
     log("  -l length      number of characters to split output by lines (" + FIXED_LENGTH_DEFAULT + " by default)");
