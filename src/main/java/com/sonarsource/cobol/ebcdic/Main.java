@@ -76,8 +76,10 @@ public final class Main {
           if (!source.isDirectory()) {
             printError("No such directory: " + source);
           }
-        } else {
+        } else if (destination == null) {
           destination = dir;
+        } else {
+          printError("Unknown option: " + args[i]);
         }
       }
     }
