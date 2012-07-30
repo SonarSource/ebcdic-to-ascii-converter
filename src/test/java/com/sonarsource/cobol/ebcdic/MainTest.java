@@ -55,7 +55,7 @@ public class MainTest {
     File outputFile3 = new File(destination, "sub/sub/cobol.txt");
     FileUtils.copyURLToFile(ebcdicSource, inputFile3);
 
-    String[] args = new String[] {"-f", "CP1047", "-t", "UTF-8", source.getAbsolutePath(), destination.getAbsolutePath()};
+    String[] args = new String[] {"-f", "CP1047", "-t", "UTF-8", "-l", "80", source.getAbsolutePath(), destination.getAbsolutePath()};
     Main.main(args);
 
     assertThat(FileUtils.contentEquals(outputFile1, expectedOutputFile)).isTrue();

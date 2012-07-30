@@ -27,7 +27,7 @@ import java.util.List;
 public final class Main {
 
   private static final String INPUT_CHARSET_DEFAULT = "CP1047";
-  private static final int FIXED_LENGTH_DEFAULT = 80;
+  private static final int FIXED_LENGTH_DEFAULT = -1;
 
   private Charset input = charsetForName(INPUT_CHARSET_DEFAULT);
   private Charset output = Charset.defaultCharset();
@@ -132,7 +132,7 @@ public final class Main {
     log("  -h, --help     display help information and exit");
     log("  -f encoding    encoding of original text (" + INPUT_CHARSET_DEFAULT + " by default)");
     log("  -t encoding    encoding for output (by default the one of the OS: " + Charset.defaultCharset().displayName() + ")");
-    log("  -l length      number of characters to split output by lines (" + FIXED_LENGTH_DEFAULT + " by default)");
+    log("  -l length      number of characters to split output by lines (disabled by default)");
     System.exit(0);
   }
 
