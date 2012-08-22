@@ -49,21 +49,15 @@ public final class Main {
         printUsage();
       } else if ("-f".equals(arg)) {
         i++;
-        if (i >= args.length) {
-          printError("Missing argument for option -f");
-        }
+        checkOptionValueDefinition(args, i);
         input = charsetForName(args[i]);
       } else if ("-t".equals(arg)) {
         i++;
-        if (i >= args.length) {
-          printError("Missing argument for option -t");
-        }
+        checkOptionValueDefinition(args, i);
         output = charsetForName(args[i]);
       } else if ("-l".equals(arg)) {
         i++;
-        if (i >= args.length) {
-          printError("Missing argument for option -l");
-        }
+        checkOptionValueDefinition(args, i);
         try {
           fixedLength = Integer.parseInt(args[i]);
         } catch (NumberFormatException e) {
@@ -91,6 +85,12 @@ public final class Main {
       printError("Missing destination.");
     }
     return this;
+  }
+
+  private void checkOptionValueDefinition(String[] args, int i) {
+    if (i >= args.length) {
+      printError("Missing argument for option -f");
+    }
   }
 
   private void convert() {
