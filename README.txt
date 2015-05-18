@@ -12,3 +12,7 @@ Installation
 4 - Lauch for instance the following command to convert all source files contained in dir1 and to put the converted  files in dir2 :
 <code>java -jar ebcdic-ascii-converter-X.Y.jar dir1 dir2</code>
 
+Build status
+------------
+
+[![Build Status](https://api.travis-ci.org/SonarSource/ebcdic-to-ascii-converter.svg)](https://travis-ci.org/SonarSource/ebcdic-to-ascii-converter)
