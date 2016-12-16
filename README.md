@@ -16,3 +16,9 @@ Build status
 ------------
 
 [![Build Status](https://api.travis-ci.org/SonarSource/ebcdic-to-ascii-converter.svg)](https://travis-ci.org/SonarSource/ebcdic-to-ascii-converter)
+
+### License
+
+Copyright 2008-2016 SonarSource.
+
+Licensed under the [GNU Lesser General Public License, Version 3.0](http://www.gnu.org/licenses/lgpl.txt)
